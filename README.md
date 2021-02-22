@@ -1,2 +1,2 @@
 # custom-deliver-times
-Custom Delivery Times for WooCommerce
+Custom Delivery Times for WooCommerce.
