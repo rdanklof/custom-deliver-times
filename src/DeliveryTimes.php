@@ -21,7 +21,7 @@ class DeliveryTimes
             foreach ($times->list() as $timeSlot) {
                 $label = $dates->getLabel($date);
                 $orderCount = $orders->getOrdersByDeliveryDateAndTime($date, $timeSlot);
-                if ($orderCount >= 3) {
+                if ($orderCount >= get_option('cdt_max_orders_per_slot', 3)) {
                     continue;
                 }
                 $value = $date->format('d-m-Y') . ' ' . $timeSlot;

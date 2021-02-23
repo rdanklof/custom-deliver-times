@@ -50,41 +50,48 @@ function my_custom_checkout_field_display_admin_order_meta($order){
 /**
  * Add a custom field (in an order) to the emails
  */
-add_filter( 'woocommerce_email_order_meta_fields', 'custom_woocommerce_email_order_meta_fields', 10, 3 );
-function custom_woocommerce_email_order_meta_fields( $fields, $sent_to_admin, $order ) {
+add_filter('woocommerce_email_order_meta_fields', 'custom_woocommerce_email_order_meta_fields', 10, 3);
+function custom_woocommerce_email_order_meta_fields($fields, $sent_to_admin, $order)
+{
     $fields['Gewenst Bezorgmoment'] = [
         'label' => 'Gewenst Bezorgmoment',
-        'value' => get_post_meta( $order->id, 'Gewenst Bezorgmoment', true ),
+        'value' => get_post_meta($order->id, 'Gewenst Bezorgmoment', true),
     ];
     return $fields;
 }
 
-//
-//function dbi_add_settings_page() {
-//    add_options_page( 'Custom Deliver Times', 'Custom Deliver Times', 'manage_options', 'custom-deliver-times',
-//    'dbi_render_plugin_settings_page' );
-//}
-//add_action( 'admin_menu', 'dbi_add_settings_page' );
-//
-//
-//function dbi_render_plugin_settings_page() {
-//    ?>
-<!--    <h2>Custom Deliver Times</h2>-->
-<!--    <form action="options.php" method="post">-->
-<!--        --><?php
-//        settings_fields( 'dbi_example_plugin_options' );
-//        do_settings_sections( 'dbi_example_plugin' ); ?>
-<!--        <input name="submit" class="button button-primary" type="submit" value="--><?php //esc_attr_e( 'Save' ); ?><!--" />-->
-<!--    </form>-->
-<!--    --><?php
-//}
-//
-//function dbi_register_settings() {
-//    register_setting( 'dbi_example_plugin_options', 'dbi_example_plugin_options', 'dbi_example_plugin_options_validate' );
-//    add_settings_section( 'api_settings', 'API Settings', 'dbi_plugin_section_text', 'dbi_example_plugin' );
-//
-//    add_settings_field( 'dbi_plugin_setting_api_key', 'API Key', 'dbi_plugin_setting_api_key', 'dbi_example_plugin', 'api_settings' );
-//    add_settings_field( 'dbi_plugin_setting_results_limit', 'Results Limit', 'dbi_plugin_setting_results_limit', 'dbi_example_plugin', 'api_settings' );
-//    add_settings_field( 'dbi_plugin_setting_start_date', 'Start Date', 'dbi_plugin_setting_start_date', 'dbi_example_plugin', 'api_settings' );
-//}
-//add_action( 'admin_init', 'dbi_register_settings' );
+function cdt_register_settings()
+{
+    add_option('cdt_max_orders_per_slot', 3);
+    register_setting('cdt_options_group', 'cdt_max_orders_per_slot', 'cdt_callback');
+}
+
+add_action('admin_init', 'cdt_register_settings');
+
+
+function cdt_register_options_page()
+{
+    add_options_page('Custom Deliver Times', 'Custom Deliver Times', 'manage_options', 'custom-deliver-times', 'cdt_options_page');
+}
+
+add_action('admin_menu', 'cdt_register_options_page');
+
+function cdt_options_page()
+{
+    ?>
+    <div>
+        <h2>Custom Deliver Times</h2>
+        <form method="post" action="options.php">
+            <?php settings_fields( 'cdt_options_group' ); ?>
+            <p>Stel op deze pagina het maximaal aantal orders per tijdslot in.</p>
+            <table>
+                <tr valign="top">
+                    <th scope="row"><label for="cdt_max_orders_per_slot">Max Orders Per Timeslot</label></th>
+                    <td><input type="number" id="cdt_max_orders_per_slot" name="cdt_max_orders_per_slot" value="<?=get_option('cdt_max_orders_per_slot');?>" /></td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+} ?>
