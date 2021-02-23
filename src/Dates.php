@@ -7,7 +7,7 @@ use Carbon\CarbonPeriod;
 
 class Dates
 {
-    public static function list(): array
+    public function list(): array
     {
         $currentTime = Carbon::now()->hour;
 
@@ -21,9 +21,22 @@ class Dates
             if ($date->isWeekend()) {
                 continue;
             }
-            $return[] = $date->toDateString();
+            $return[] = $date;
         }
 
         return $return;
+    }
+
+    public function getLabel(Carbon $date): string
+    {
+        if ($date->isToday()) {
+            return 'Vandaag';
+        }
+
+        if ($date->isTomorrow()) {
+            return 'Morgen';
+        }
+
+        return $date->dayName;
     }
 }

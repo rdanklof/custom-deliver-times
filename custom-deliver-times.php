@@ -10,98 +10,12 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use CustomDeliverTimes\Dates;
+use CustomDeliverTimes\DeliveryTimes;
 
-/**
- * Add custom field to the checkout page
- */
 add_action('woocommerce_before_order_notes', 'custom_checkout_field');
-function custom_checkout_field($checkout)
+function custom_checkout_field($checkout): void
 {
-    date_default_timezone_set('Europe/Amsterdam');
-
-    echo '<div id="custom_checkout_field">';
-
-
-    $query_args = array(
-        'fields' => 'ids',
-        'post_type' => 'shop_order',
-        'post_status' => array_keys( wc_get_order_statuses() ),
-        'posts_per_page' => -1,
-//        'numberposts' => -1,
-        'date_query' => array(
-            array(
-                'before' => date('Y-m-d', $end),
-                'after'  => '2020-12-01',//date('Y-m-d', $start),
-                'inclusive' => true,
-            ),
-        ),
-    );
-
-    while ($start <= $end) {
-        $isToday = date('Y-m-d') === date('Y-m-d', $start);
-        $isTomorrow = date('Y-m-d', time() + 86400) === date('Y-m-d', $start);
-        $weekDay = date('N', $start);
-
-        if ($isToday && date('H') > 10) {
-            $start += 86400;
-            continue;
-        }
-        global $wpdb;
-        if ($weekDay <= 5) {
-            foreach ($timeSlots as $timeSlot) {
-                $value = date('d-m-Y', $start) . ' ' . $timeSlot;
-                $order_count = $wpdb->get_var("SELECT
-                    COUNT(wp_posts.id)
-                FROM
-                    `wp_posts`
-                INNER JOIN
-                    `wp_postmeta` ON (wp_postmeta.post_id = wp_posts.id AND wp_postmeta.meta_key = 'Gewenst Bezorgmoment' AND `wp_postmeta`.`meta_value` = '" . $value . "')
-                WHERE
-                        `wp_posts`.`post_type` = 'shop_order'
-                GROUP BY
-                    `wp_postmeta`.`meta_value`");
-
-                if ($order_count >= 3) {
-                    continue;
-                }
-
-                if ($isToday) {
-                    $label = 'Vandaag';
-                } elseif ($isTomorrow) {
-                    $label = 'Morgen';
-                } else {
-                    $label = $weekDays[$weekDay] . ' ' . date('j', $start) . ' ' . strtolower($months[date('n',
-                            $start)]);
-                }
-
-                $label .= ' ' . $timeSlot;
-
-                $options[$value] = $label;
-            }
-        }
-
-        $start += 86400;
-        $count++;
-
-        if ($count === 3) {
-            continue;
-        }
-    }
-
-    woocommerce_form_field('delivery_moment', [
-        'type' => 'select',
-        'class' => [
-            'my-field-class form-row-wide',
-        ],
-        'options' => $options,
-        'required' => 1,
-        'label' => __('Gewenst Bezorgmoment'),
-    ],
-        $checkout->get_value('delivery_moment')
-    );
-
-    echo '</div>';
+    (new DeliveryTimes)->render($checkout);
 }
 
 /**
@@ -112,7 +26,6 @@ function customised_checkout_field_process()
 {
     // Show an error message if the field is not set.
     if (!$_POST['delivery_moment']) wc_add_notice(__('Please enter value!') , 'error');
-
 }
 
 /**

@@ -11,30 +11,30 @@ class AvailableDatesTest extends TestCase
     {
         Travel::to('25-03-2021 10:59:00');
 
-        $dates = Dates::list();
+        $dates = (new Dates)->list();
 
         $this->assertIsArray($dates);
-        $this->assertEquals($dates[0], Carbon::today()->toDateString());
+        $this->assertEquals($dates[0], Carbon::today());
     }
 
     public function testFirstDateIsTomorrowWhenAfter11am(): void
     {
         Travel::to('25-03-2021 11:00:00');
 
-        $dates = Dates::list();
+        $dates = (new Dates)->list();
 
         $this->assertIsArray($dates);
-        $this->assertEquals($dates[0], Carbon::tomorrow()->toDateString());
+        $this->assertEquals($dates[0], Carbon::tomorrow());
     }
 
     public function testDateIsNotListedWhenWeekend(): void
     {
         Travel::to('next saturday');
 
-        $dates = Dates::list();
+        $dates = (new Dates)->list();
 
         $this->assertIsArray($dates);
-        $this->assertEquals($dates[0], Carbon::now()->next('monday')->toDateString());
+        $this->assertEquals($dates[0], Carbon::now()->next('monday'));
     }
 
     protected function tearDown(): void

@@ -10,4 +10,9 @@ class Times
         '12:30 - 12:45',
         '12:45 - 13:00',
     ];
+
+    public function list(): array
+    {
+        return $this->slots;
+    }
 }
