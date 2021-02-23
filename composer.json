@@ -21,5 +21,16 @@
     "psr-4": {
       "CustomDeliverTimes\\": "src/"
     }
+  },
+  "archive": {
+    "exclude": [
+      ".git",
+      ".gitignore",
+      ".phpunit.result.cache",
+      "README.md",
+      "grumphp.yml",
+      "phpunit.xml",
+      "tests"
+    ]
   }
 }
