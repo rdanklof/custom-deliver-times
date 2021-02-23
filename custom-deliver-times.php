@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name: Custom Delivery Times
- * Plugin URI: https://www.richarddanklof.nl
  * Description: WooCommerce custom delivery times
  * Version: 0.1
  * Author: Richard Danklof

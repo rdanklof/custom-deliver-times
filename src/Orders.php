@@ -10,9 +10,9 @@ class Orders
     {
         global $wpdb;
 
-        $deliveryTime = $date->toDateString() . ' ' . $timeSlot;
+        $deliveryTime = $date->format('d-m-Y') . ' ' . $timeSlot;
 
-        $orderCount = $wpdb->get_var("SELECT 
+        $orderCount = (int) $wpdb->get_var("SELECT 
                 COUNT(wp_posts.id)
             FROM
                 wp_posts
@@ -25,6 +25,6 @@ class Orders
             GROUP BY 
                 wp_postmeta.meta_value");
 
-        return $orderCount;
+        return $orderCount ?? 0;
     }
 }

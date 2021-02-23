@@ -37,6 +37,6 @@ class Dates
             return 'Morgen';
         }
 
-        return $date->dayName;
+        return ucfirst($date->dayName) . ' ' . $date->day . ' ' . $date->monthName;
     }
 }

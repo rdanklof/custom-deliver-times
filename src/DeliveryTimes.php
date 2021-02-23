@@ -2,10 +2,15 @@
 
 namespace CustomDeliverTimes;
 
+use Carbon\Carbon;
+
 class DeliveryTimes
 {
     public function list(): array
     {
+        date_default_timezone_set('Europe/Amsterdam');
+        Carbon::setLocale('nl-NL');
+
         $dates = new Dates();
         $times = new Times();
         $orders = new Orders();
@@ -13,14 +18,19 @@ class DeliveryTimes
         $options = [];
 
         foreach ($dates->list() as $date) {
-            $label = $dates->getLabel($date);
             foreach ($times->list() as $timeSlot) {
+                $label = $dates->getLabel($date);
                 $orderCount = $orders->getOrdersByDeliveryDateAndTime($date, $timeSlot);
                 if ($orderCount >= 3) {
                     continue;
                 }
-                $value = $date->toDateString() . ' ' . $timeSlot;
+                $value = $date->format('d-m-Y') . ' ' . $timeSlot;
                 $label .= ' ' . $timeSlot;
+
+                if (WP_DEBUG) {
+                    $label .= ' (' . $orderCount . ')';
+                }
+
                 $options[$value] = $label;
             }
         }
