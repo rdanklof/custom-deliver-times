@@ -12,7 +12,8 @@
     "monolog/monolog": "^2.2",
     "nesbot/carbon": "^2.45",
     "phpunit/phpunit": "^9.5",
-    "rachidlaasri/travel": "^1.0"
+    "rachidlaasri/travel": "^1.0",
+    "umulmrum/holiday": "^0.6.0"
   },
   "require-dev": {
     "phpro/grumphp": "^1.3"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b321ef247954c71944249eeda8c3954",
+    "content-hash": "7e5bfd367037a849cb58ccc7cb100cdd",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -2504,6 +2504,57 @@
                 }
             ],
             "time": "2020-07-12T23:59:07+00:00"
+        },
+        {
+            "name": "umulmrum/holiday",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/umulmrum/holiday.git",
+                "reference": "7254d2c11363d371968daadacba72d873d7c74f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/umulmrum/holiday/zipball/7254d2c11363d371968daadacba72d873d7c74f8",
+                "reference": "7254d2c11363d371968daadacba72d873d7c74f8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "chameleon-system/code-style-config": "dev-master@dev",
+                "ext-json": "*",
+                "phpunit/phpunit": "~9.4",
+                "symfony/translation": "~4.3|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Umulmrum\\Holiday\\": [
+                        "src"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stefan Kruppa",
+                    "email": "stefan@umulmrum.de"
+                }
+            ],
+            "description": "A PHP library to compute holidays. It's something :-)",
+            "keywords": [
+                "calendar",
+                "date",
+                "holiday",
+                "holidays",
+                "time"
+            ],
+            "time": "2021-02-10T20:24:13+00:00"
         },
         {
             "name": "webmozart/assert",

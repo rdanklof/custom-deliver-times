@@ -4904,6 +4904,59 @@
         ]
     },
     {
+        "name": "umulmrum/holiday",
+        "version": "0.6.0",
+        "version_normalized": "0.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/umulmrum/holiday.git",
+            "reference": "7254d2c11363d371968daadacba72d873d7c74f8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/umulmrum/holiday/zipball/7254d2c11363d371968daadacba72d873d7c74f8",
+            "reference": "7254d2c11363d371968daadacba72d873d7c74f8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.3"
+        },
+        "require-dev": {
+            "chameleon-system/code-style-config": "dev-master@dev",
+            "ext-json": "*",
+            "phpunit/phpunit": "~9.4",
+            "symfony/translation": "~4.3|~5.0"
+        },
+        "time": "2021-02-10T20:24:13+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Umulmrum\\Holiday\\": [
+                    "src"
+                ]
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Stefan Kruppa",
+                "email": "stefan@umulmrum.de"
+            }
+        ],
+        "description": "A PHP library to compute holidays. It's something :-)",
+        "keywords": [
+            "calendar",
+            "date",
+            "holiday",
+            "holidays",
+            "time"
+        ]
+    },
+    {
         "name": "webmozart/assert",
         "version": "1.9.1",
         "version_normalized": "1.9.1.0",

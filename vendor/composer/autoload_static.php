@@ -41,6 +41,10 @@ class ComposerStaticIniteb22f31bd9f9c82cdabadced37c1aeff
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'U' => 
+        array (
+            'Umulmrum\\Holiday\\' => 17,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -126,6 +130,10 @@ class ComposerStaticIniteb22f31bd9f9c82cdabadced37c1aeff
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Umulmrum\\Holiday\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/umulmrum/holiday/src',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (

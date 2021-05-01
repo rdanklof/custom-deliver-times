@@ -37,6 +37,24 @@ class AvailableDatesTest extends TestCase
         self::assertEquals($dates[0], Carbon::now()->next('monday'));
     }
 
+    public function testOfficialHolidayIsNotAvailable(): void
+    {
+        Travel::to('2021-05-12 12:00:00');
+
+        $dates = (new Dates)->list();
+
+        self::assertEquals($dates[0], Carbon::parse('2021-05-14'));
+    }
+
+    public function testNonOfficialHolidayIsAvailable(): void
+    {
+        Travel::to('2021-05-04 12:00:00');
+
+        $dates = (new Dates)->list();
+
+        self::assertEquals($dates[0], Carbon::parse('2021-05-05'));
+    }
+
     protected function tearDown(): void
     {
         Travel::back();
