@@ -31,7 +31,8 @@
       "README.md",
       "grumphp.yml",
       "phpunit.xml",
-      "tests"
+      "tests",
+      "!vendor/*"
     ]
   }
 }
