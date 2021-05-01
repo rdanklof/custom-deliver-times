@@ -63,4 +63,16 @@ class DeliveryTimes
 
         echo '</div>';
     }
+
+    public function openForBusiness(): bool
+    {
+        $currentTime = Carbon::now()->hour;
+
+        if ($currentTime < 11) {
+            $dates = (new Dates($this->excluded))->list();
+            return $dates[0] !== Carbon::today()->toDateString();
+        }
+
+        return false;
+    }
 }
