@@ -7,6 +7,13 @@ use Carbon\CarbonPeriod;
 
 class Dates
 {
+    public array $excluded;
+
+    public function __construct(array $excluded = [])
+    {
+        $this->excluded = $this->getExcluded($excluded);
+    }
+
     public function list(): array
     {
         $currentTime = Carbon::now()->hour;
@@ -17,10 +24,15 @@ class Dates
 
         $return = [];
 
-        foreach (CarbonPeriod::create($start, $start->copy()->addDays(10)) as $date) {
+        foreach (CarbonPeriod::create($start, $start->copy()->addDays(14)) as $date) {
+            if (in_array($date->copy()->startOfDay()->timestamp, $this->excluded, true)) {
+                continue;
+            }
+
             if ($date->isWeekend()) {
                 continue;
             }
+
             $return[] = $date;
         }
 
@@ -38,5 +50,16 @@ class Dates
         }
 
         return ucfirst($date->dayName) . ' ' . $date->day . ' ' . $date->monthName;
+    }
+
+    private function getExcluded(array $values): array
+    {
+        $return = [];
+
+        foreach ($values as $excluded) {
+            $return[] = Carbon::parse($excluded)->startOfDay()->timestamp;
+        }
+
+        return $return;
     }
 }

@@ -6,12 +6,21 @@ use Carbon\Carbon;
 
 class DeliveryTimes
 {
+    public array $excluded;
+    public int $maxOrdersPerSlot = 3;
+
+    public function __construct(array $excluded = [], int $maxOrdersPerSlot = 3)
+    {
+        $this->maxOrdersPerSlot = $maxOrdersPerSlot;
+        $this->excluded = $excluded;
+    }
+
     public function list(): array
     {
         date_default_timezone_set('Europe/Amsterdam');
         Carbon::setLocale('nl-NL');
 
-        $dates = new Dates();
+        $dates = new Dates($this->excluded);
         $times = new Times();
         $orders = new Orders();
 
@@ -21,7 +30,7 @@ class DeliveryTimes
             foreach ($times->list() as $timeSlot) {
                 $label = $dates->getLabel($date);
                 $orderCount = $orders->getOrdersByDeliveryDateAndTime($date, $timeSlot);
-                if ($orderCount >= get_option('cdt_max_orders_per_slot', 3)) {
+                if ($orderCount >= $this->maxOrdersPerSlot) {
                     continue;
                 }
                 $value = $date->format('d-m-Y') . ' ' . $timeSlot;

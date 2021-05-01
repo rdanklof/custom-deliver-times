@@ -13,8 +13,8 @@ class AvailableDatesTest extends TestCase
 
         $dates = (new Dates)->list();
 
-        $this->assertIsArray($dates);
-        $this->assertEquals($dates[0], Carbon::today());
+        self::assertIsArray($dates);
+        self::assertEquals($dates[0], Carbon::today());
     }
 
     public function testFirstDateIsTomorrowWhenAfter11am(): void
@@ -23,8 +23,8 @@ class AvailableDatesTest extends TestCase
 
         $dates = (new Dates)->list();
 
-        $this->assertIsArray($dates);
-        $this->assertEquals($dates[0], Carbon::tomorrow());
+        self::assertIsArray($dates);
+        self::assertEquals($dates[0], Carbon::tomorrow());
     }
 
     public function testDateIsNotListedWhenWeekend(): void
@@ -33,8 +33,8 @@ class AvailableDatesTest extends TestCase
 
         $dates = (new Dates)->list();
 
-        $this->assertIsArray($dates);
-        $this->assertEquals($dates[0], Carbon::now()->next('monday'));
+        self::assertIsArray($dates);
+        self::assertEquals($dates[0], Carbon::now()->next('monday'));
     }
 
     protected function tearDown(): void
