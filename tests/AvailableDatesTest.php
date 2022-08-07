@@ -9,7 +9,7 @@ class AvailableDatesTest extends TestCase
 {
     public function testFirstDateIsTodayWhenBefore11am(): void
     {
-        Travel::to('25-03-2021 10:59:00');
+        Travel::to('2021-03-25 10:59:00');
 
         $dates = (new Dates)->list();
 
@@ -19,7 +19,7 @@ class AvailableDatesTest extends TestCase
 
     public function testFirstDateIsTomorrowWhenAfter11am(): void
     {
-        Travel::to('25-03-2021 11:00:00');
+        Travel::to('2021-03-25 11:00:00');
 
         $dates = (new Dates)->list();
 
