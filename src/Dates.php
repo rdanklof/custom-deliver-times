@@ -24,6 +24,7 @@ class Dates
 
     public function list(): array
     {
+        date_default_timezone_set('Europe/Amsterdam');
         $currentTime = Carbon::now()->hour;
 
         $start = $currentTime < 11
