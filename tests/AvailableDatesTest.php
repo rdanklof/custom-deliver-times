@@ -7,6 +7,11 @@ use RachidLaasri\Travel\Travel;
 
 class AvailableDatesTest extends TestCase
 {
+    public function setUp(): void
+    {
+        date_default_timezone_set('Europe/Amsterdam');
+    }
+
     public function testFirstDateIsTodayWhenBefore11am(): void
     {
         Travel::to('2021-03-25 10:59:00');

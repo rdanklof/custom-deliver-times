@@ -10,13 +10,17 @@ use RachidLaasri\Travel\Travel;
  */
 class DeliveryTimesTest extends TestCase
 {
+    public function setUp(): void
+    {
+        date_default_timezone_set('Europe/Amsterdam');
+    }
+
     /**
      * @covers ::openForBusiness
      * @dataProvider openForBusinessDataProvider
      */
     public function testOpenForBusiness(string $date, array $excluded, bool $expectation): void
     {
-        date_default_timezone_set('Europe/Amsterdam');
         Travel::to($date);
         self::assertEquals($expectation, (new DeliveryTimes($excluded))->openForBusiness());
     }

@@ -91,7 +91,7 @@ class Dates
 
         $holidayCalculator = new HolidayCalculator();
 
-        $holidays = $holidayCalculator->calculate(Netherlands::class, [2021, 2022]);
+        $holidays = $holidayCalculator->calculate(Netherlands::class, [2021, 2022, 2023]);
 
         $firstDay = new \DateTime($firstDay->toDateString());
         $lastDay = new \DateTime($lastDay->toDateString());
