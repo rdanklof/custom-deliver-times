@@ -22,22 +22,42 @@ class Dates
         $this->excluded = $this->getExcluded($excluded);
     }
 
-    public function list(): array
+    public function list(bool $onlyFridays = true): array
     {
         date_default_timezone_set('Europe/Amsterdam');
-        $currentTime = Carbon::now()->hour;
+        $current = Carbon::now();
+        $currentHour = $current->hour;
 
-        $start = $currentTime < 11
-            ? Carbon::today()
-            : Carbon::tomorrow();
+        if ($onlyFridays) {
+            if($current->isThursday() && $currentHour < 19){
+                $start = Carbon::today();
+            } elseif($current->isThursday() && $currentHour >= 19){
+                $start = Carbon::today()->addWeek()->next('friday');
+            } else {
+                $start = Carbon::today();
+            }
+        } else {
+            $start = $currentHour < 11
+                ? Carbon::today()
+                : Carbon::tomorrow();
+        }
 
-        $range = CarbonPeriod::create($start, $start->copy()->addDays(14));
+        $range = CarbonPeriod::create($start, $start->copy()->addMonth());
 
         $this->getHolidays($range);
 
         $return = [];
 
         foreach ($range as $date) {
+
+            if ($onlyFridays && !$date->isFriday()) {
+                continue;
+            }
+
+            if ($onlyFridays && $date->isToday()) {
+                continue;
+            }
+
             if (in_array($date->copy()->startOfDay()->timestamp, $this->excluded, true)) {
                 continue;
             }
