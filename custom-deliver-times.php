@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Custom Deliver Times
  * Description: WooCommerce custom deliver times
- * Version: 0.1
+ * Version: 0.1.1
  * Author: Richard Danklof
  * Author URI: https://www.richarddanklof.nl
  */
@@ -24,7 +24,7 @@ function cdt_field($checkout): void
  * Checkout Process
  */
 add_action('woocommerce_checkout_process', 'cdt_field_process');
-function cdt_field_process()
+function cdt_field_process(): void
 {
     // Show an error message if the field is not set.
     if (!$_POST['delivery_moment']) {
@@ -36,7 +36,7 @@ function cdt_field_process()
  * Update the value given in custom field
  */
 add_action('woocommerce_checkout_update_order_meta', 'cdt_field_update_order_meta');
-function cdt_field_update_order_meta($order_id)
+function cdt_field_update_order_meta($order_id): void
 {
     if (!empty($_POST['delivery_moment'])) {
         update_post_meta($order_id, 'Gewenst Bezorgmoment', sanitize_text_field($_POST['delivery_moment']));
@@ -47,7 +47,7 @@ function cdt_field_update_order_meta($order_id)
  * Display field value on the order edit page
  */
 add_action('woocommerce_admin_order_data_after_billing_address', 'cdt_field_display_admin_order_meta', 10, 1);
-function cdt_field_display_admin_order_meta($order)
+function cdt_field_display_admin_order_meta($order): void
 {
     echo '<p><strong>' . __('Gewenst Bezorgmoment') . ':</strong> <br/>' . get_post_meta($order->get_id(),
             'Gewenst Bezorgmoment', true) . '</p>';
@@ -67,7 +67,7 @@ function cdt_woocommerce_email_order_meta_fields($fields, $sent_to_admin, $order
 }
 
 add_action('admin_init', 'cdt_register_settings');
-function cdt_register_settings()
+function cdt_register_settings(): void
 {
     add_option('cdt_max_orders_per_slot', 3);
     register_setting('cdt_options_group', 'cdt_max_orders_per_slot', 'cdt_callback');
@@ -77,7 +77,7 @@ function cdt_register_settings()
 }
 
 add_action('admin_menu', 'cdt_register_options_page');
-function cdt_register_options_page()
+function cdt_register_options_page(): void
 {
     add_options_page('Custom Deliver Times', 'Custom Deliver Times', 'manage_options', 'custom-deliver-times',
         'cdt_options_page');

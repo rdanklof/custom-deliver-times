@@ -22,21 +22,42 @@ class Dates
         $this->excluded = $this->getExcluded($excluded);
     }
 
-    public function list(): array
+    public function list(bool $onlyFridays = true): array
     {
-        $currentTime = Carbon::now()->hour;
+        date_default_timezone_set('Europe/Amsterdam');
+        $current = Carbon::now();
+        $currentHour = $current->hour;
 
-        $start = $currentTime < 11
-            ? Carbon::today()
-            : Carbon::tomorrow();
+        if ($onlyFridays) {
+            if($current->isThursday() && $currentHour < 19){
+                $start = Carbon::today();
+            } elseif($current->isThursday() && $currentHour >= 19){
+                $start = Carbon::today()->addWeek()->next('friday');
+            } else {
+                $start = Carbon::today();
+            }
+        } else {
+            $start = $currentHour < 11
+                ? Carbon::today()
+                : Carbon::tomorrow();
+        }
 
-        $range = CarbonPeriod::create($start, $start->copy()->addDays(14));
+        $range = CarbonPeriod::create($start, $start->copy()->addMonth());
 
         $this->getHolidays($range);
 
         $return = [];
 
         foreach ($range as $date) {
+
+            if ($onlyFridays && !$date->isFriday()) {
+                continue;
+            }
+
+            if ($onlyFridays && $date->isToday()) {
+                continue;
+            }
+
             if (in_array($date->copy()->startOfDay()->timestamp, $this->excluded, true)) {
                 continue;
             }
@@ -90,7 +111,7 @@ class Dates
 
         $holidayCalculator = new HolidayCalculator();
 
-        $holidays = $holidayCalculator->calculate(Netherlands::class, [2021, 2022]);
+        $holidays = $holidayCalculator->calculate(Netherlands::class, [2021, 2022, 2023]);
 
         $firstDay = new \DateTime($firstDay->toDateString());
         $lastDay = new \DateTime($lastDay->toDateString());

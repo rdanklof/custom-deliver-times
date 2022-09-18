@@ -66,11 +66,18 @@ class DeliveryTimes
 
     public function openForBusiness(): bool
     {
-        $currentTime = Carbon::now()->hour;
+        date_default_timezone_set('Europe/Amsterdam');
+        Carbon::setLocale('nl-NL');
 
-        if ($currentTime < 11) {
+        $currentHour = Carbon::now()->hour;
+
+        if (in_array(Carbon::today()->toDateString(), $this->excluded, true)) {
+            return false;
+        }
+
+        if ($currentHour < 11) {
             $dates = (new Dates($this->excluded))->list();
-            return $dates[0] !== Carbon::today()->toDateString();
+            return Carbon::parse($dates[0])->toDateTimeString() !== Carbon::today()->toDateString();
         }
 
         return false;

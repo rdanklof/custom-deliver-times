@@ -7,6 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class AvailableTimeSlotsTest extends TestCase
 {
+    public function setUp(): void
+    {
+        date_default_timezone_set('Europe/Amsterdam');
+    }
+
     public function testTimeSlotIsHiddenWhen(): void
     {
         $stub = $this->createMock(Orders::class);
